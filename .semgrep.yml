@@ -2,11 +2,11 @@ rules:
   - id: node-unsafe-eval
     patterns:
       - pattern-either:
-          - pattern: eval(...)
-          - pattern: new Function(...)
-          - pattern: vm.runInContext(...)
-          - pattern: vm.runInNewContext(...)
-          - pattern: vm.runInThisContext(...)
+          - pattern: 'eval(...)'
+          - pattern: 'new Function(...)'
+          - pattern: 'vm.runInContext(...)'
+          - pattern: 'vm.runInNewContext(...)'
+          - pattern: 'vm.runInThisContext(...)'
     message: "Avoid using unsafe eval() or dynamic Function compilation. This can lead to Remote Code Execution (RCE)."
     languages: [javascript, typescript]
     severity: ERROR
@@ -18,12 +18,12 @@ rules:
   - id: node-command-injection
     patterns:
       - pattern-either:
-          - pattern: require('child_process').exec($CMD, ...)
-          - pattern: require('child_process').execSync($CMD, ...)
-          - pattern: child_process.exec($CMD, ...)
-          - pattern: child_process.execSync($CMD, ...)
-      - pattern-not: child_process.exec("...", ...)
-      - pattern-not: child_process.execSync("...", ...)
+          - pattern: "require('child_process').exec($CMD, ...)"
+          - pattern: "require('child_process').execSync($CMD, ...)"
+          - pattern: "child_process.exec($CMD, ...)"
+          - pattern: "child_process.execSync($CMD, ...)"
+      - pattern-not: 'child_process.exec("...", ...)'
+      - pattern-not: 'child_process.execSync("...", ...)'
     message: "Executing commands constructed with dynamic parameters can lead to Command Injection."
     languages: [javascript, typescript]
     severity: ERROR
@@ -35,10 +35,10 @@ rules:
   - id: nosql-injection-mongo
     patterns:
       - pattern-either:
-          - pattern: $MODEL.find({ $KEY: req.$REQ_PROP })
-          - pattern: $MODEL.findOne({ $KEY: req.$REQ_PROP })
-          - pattern: $MODEL.deleteMany({ $KEY: req.$REQ_PROP })
-          - pattern: $MODEL.where(req.$REQ_PROP)
+          - pattern: '$MODEL.find({ $KEY: req.$REQ_PROP })'
+          - pattern: '$MODEL.findOne({ $KEY: req.$REQ_PROP })'
+          - pattern: '$MODEL.deleteMany({ $KEY: req.$REQ_PROP })'
+          - pattern: '$MODEL.where(req.$REQ_PROP)'
     message: "Passing unsanitized request data directly into MongoDB query objects can lead to NoSQL Injection."
     languages: [javascript, typescript]
     severity: WARNING
@@ -49,7 +49,7 @@ rules:
 
   - id: insecure-express-cors-wildcard
     patterns:
-      - pattern: cors({ origin: '*' })
+      - pattern: "cors({ origin: '*' })"
     message: "Configuring CORS with a wildcard ('*') origin in Express applications may allow unauthorized cross-origin access."
     languages: [javascript, typescript]
     severity: WARNING
@@ -61,8 +61,8 @@ rules:
   - id: weak-crypto-hashing
     patterns:
       - pattern-either:
-          - pattern: crypto.createHash('md5')
-          - pattern: crypto.createHash('sha1')
+          - pattern: "crypto.createHash('md5')"
+          - pattern: "crypto.createHash('sha1')"
     message: "MD5 and SHA1 are cryptographically broken and weak hashing algorithms. Use SHA-256, SHA-512, or bcrypt/argon2 instead."
     languages: [javascript, typescript]
     severity: WARNING
@@ -73,7 +73,7 @@ rules:
 
   - id: hardcoded-jwt-secret
     patterns:
-      - pattern: jwt.sign($PAYLOAD, "...", ...)
+      - pattern: 'jwt.sign($PAYLOAD, "...", ...)'
     message: "Hardcoding JWT secret keys in source code is unsafe. Store JWT secrets securely in environment variables or secret managers."
     languages: [javascript, typescript]
     severity: ERROR
@@ -84,7 +84,7 @@ rules:
 
   - id: react-dangerously-set-inner-html
     patterns:
-      - pattern: <$EL dangerouslySetInnerHTML={{ __html: $VAR }} ... />
+      - pattern: '<$EL dangerouslySetInnerHTML={{ __html: $VAR }} ... />'
     message: "Using dangerouslySetInnerHTML in React without proper sanitization can introduce Cross-Site Scripting (XSS) vulnerabilities."
     languages: [javascript, typescript]
     severity: WARNING
@@ -96,10 +96,10 @@ rules:
   - id: path-traversal-fs-read
     patterns:
       - pattern-either:
-          - pattern: fs.readFile(req.$REQ_PROP, ...)
-          - pattern: fs.readFileSync(req.$REQ_PROP, ...)
-          - pattern: fs.writeFile(req.$REQ_PROP, ...)
-          - pattern: fs.writeFileSync(req.$REQ_PROP, ...)
+          - pattern: 'fs.readFile(req.$REQ_PROP, ...)'
+          - pattern: 'fs.readFileSync(req.$REQ_PROP, ...)'
+          - pattern: 'fs.writeFile(req.$REQ_PROP, ...)'
+          - pattern: 'fs.writeFileSync(req.$REQ_PROP, ...)'
     message: "Passing unsanitized user input into file system APIs can allow Path Traversal attacks."
     languages: [javascript, typescript]
     severity: ERROR

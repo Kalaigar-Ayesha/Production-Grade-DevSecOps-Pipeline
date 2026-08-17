@@ -1,0 +1,8 @@
+# Gitleaks ignore list for baseline historical commits containing mock manifest & dev secrets
+02548f09419c5a5569500b7607697f0aa64c2545:kubernetes/backend-secret.yaml:jwt-secret-key:11
+2b06404fe1599f6ad00e126693d11d807f0b13b6:Helm/templates/backend-secret.yaml:jwt-secret-key:8
+f3e09495f7bfa5b21b560f62db18e363dd66ab20:kubernetes/backend-secret.yaml:jwt-secret-key:8
+88298328cdd7e5d55d8000a6f987d08c1817f908:backend/.env:jwt-secret-key:6
+2b06404fe1599f6ad00e126693d11d807f0b13b6:Helm/templates/backend-secret.yaml:generic-api-key:8
+f3e09495f7bfa5b21b560f62db18e363dd66ab20:kubernetes/backend-secret.yaml:kubernetes-secret-yaml:2
+f3e09495f7bfa5b21b560f62db18e363dd66ab20:kubernetes/backend-secret.yaml:generic-api-key:8

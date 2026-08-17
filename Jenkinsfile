@@ -22,6 +22,25 @@ pipeline {
     }
     
     stages {
+        stage('Secret Scanning (Gitleaks)') {
+            steps {
+                script {
+                    echo "🔒 Running Gitleaks Secret Scanner on pipeline commits..."
+                    sh '''
+                        if ! command -v gitleaks &> /dev/null; then
+                            echo "Downloading free open-source Gitleaks CLI..."
+                            curl -sSFL https://github.com/gitleaks/gitleaks/releases/download/v8.18.2/gitleaks_8.18.2_linux_x64.tar.gz -o gitleaks.tar.gz
+                            tar -xzf gitleaks.tar.gz gitleaks
+                            ./gitleaks detect --source . --verbose --config .gitleaks.toml
+                            rm -f gitleaks gitleaks.tar.gz
+                        else
+                            gitleaks detect --source . --verbose --config .gitleaks.toml
+                        fi
+                    '''
+                }
+            }
+        }
+        
         stage('Preparation') {
             steps {
                 script {

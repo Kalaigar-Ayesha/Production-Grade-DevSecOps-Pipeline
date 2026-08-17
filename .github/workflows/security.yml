@@ -1,0 +1,28 @@
+name: DevSecOps Security Scan
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  gitleaks-secret-scan:
+    name: Gitleaks Secret Scanning 🔐
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository History
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks Secret Scanner
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: "" # Free open-source mode
+        with:
+          config-path: .gitleaks.toml

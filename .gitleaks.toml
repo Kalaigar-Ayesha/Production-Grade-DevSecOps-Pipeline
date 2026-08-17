@@ -1,0 +1,67 @@
+title = "Custom DevSecOps Gitleaks Configuration"
+
+[gitleaks]
+useDefault = true
+
+[allowlist]
+description = "Global allowlist for non-secrets, variable references, and mock documentation"
+paths = [
+  '''README\.md''',
+  '''package-lock\.json''',
+  '''node_modules'''
+]
+regexes = [
+  '''(?i)process\.env''',
+  '''(?i)var\.[a-zA-Z0-9_]+''',
+  '''(?i)your-[a-zA-Z0-9_-]+''',
+  '''(?i)\${[a-zA-Z0-9_.]+}''',
+  '''(?i)#\s*CLOUDINARY_[A-Z_]+=\.\.\.'''
+]
+
+[[rules]]
+id = "aws-access-key-id"
+description = "AWS Access Key ID"
+regex = '''(?i)(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+keywords = ["akia", "asia", "aws"]
+
+[[rules]]
+id = "aws-secret-access-key"
+description = "AWS Secret Access Key"
+regex = '''(?i)(aws_secret_access_key|aws_secret_key|aws_key)\s*[:=]\s*['"]?([A-Za-z0-9/+=]{40})['"]?'''
+keywords = ["aws_secret_access_key", "aws_secret_key"]
+
+[[rules]]
+id = "mongodb-credentials"
+description = "MongoDB Connection String with Credentials"
+regex = '''mongodb(\+srv)?://[a-zA-Z0-9_.-]+:[^@\s"']+@[a-zA-Z0-9_.-]+'''
+keywords = ["mongodb", "mongodb+srv"]
+
+[[rules]]
+id = "jwt-secret-key"
+description = "JWT Secret Key Assignment with Plaintext Value"
+regex = '''(?i)(jwt_secret|jwt_key|jwt_signing_key)\s*[:=]\s*['"]?([a-zA-Z0-9_!@#$%^&*()-+=]{16,})['"]?'''
+keywords = ["jwt_secret", "jwt_key"]
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key Assignment"
+regex = '''(?i)(api[_-]?key|api[_-]?token|secret[_-]?key|x-api-key)\s*[:=]\s*['"]?([a-zA-Z0-9_-]{20,64})['"]?'''
+keywords = ["api_key", "apikey", "api-key", "secret_key", "x-api-key"]
+
+[[rules]]
+id = "cloudinary-credentials"
+description = "Cloudinary Credentials"
+regex = '''cloudinary://[0-9]+:[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+'''
+keywords = ["cloudinary://"]
+
+[[rules]]
+id = "dockerhub-credentials"
+description = "Docker Hub Credentials"
+regex = '''(?i)(docker[_-]?password|dockerhub[_-]?token)\s*[:=]\s*['"]?([a-zA-Z0-9_.-]{20,64})['"]?'''
+keywords = ["docker_password", "dockerhub_token"]
+
+[[rules]]
+id = "database-passwords"
+description = "Database Passwords"
+regex = '''(?i)(db[_-]?pass(word)?|postgres[_-]?password|mysql[_-]?password|redis[_-]?password|mongo[_-]?password)\s*[:=]\s*['"]?([a-zA-Z0-9_!@#$%^&*()-+=]{12,})['"]?'''
+keywords = ["db_password", "postgres_password", "mysql_password", "redis_password", "mongo_password"]

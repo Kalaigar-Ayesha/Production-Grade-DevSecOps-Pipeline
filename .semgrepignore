@@ -1,0 +1,11 @@
+# Semgrep Ignore List
+node_modules/
+dist/
+dist-ssr/
+coverage/
+*.min.js
+*.bundle.js
+*.map
+package-lock.json
+terraform/.terraform/
+.git/

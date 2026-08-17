@@ -45,6 +45,16 @@ jobs:
         with:
           config-path: .gitleaks.toml
 
+      - name: Run Semgrep SAST Code Scanner
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/nodejs
+            p/javascript
+            p/owasp-top-ten
+            .semgrep.yml
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:

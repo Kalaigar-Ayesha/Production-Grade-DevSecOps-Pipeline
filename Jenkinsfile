@@ -40,6 +40,21 @@ pipeline {
                 }
             }
         }
+
+        stage('SAST Scanning (Semgrep)') {
+            steps {
+                script {
+                    echo "🛡️ Running Semgrep SAST Scanner on backend/ and frontend/..."
+                    sh '''
+                        if command -v semgrep &> /dev/null; then
+                            semgrep scan --config p/security-audit --config p/nodejs --config p/javascript --config p/owasp-top-ten --config .semgrep.yml backend/ frontend/
+                        else
+                            docker run --rm -v "${WORKSPACE}:/src" returntocorp/semgrep semgrep scan --config p/security-audit --config p/nodejs --config p/javascript --config p/owasp-top-ten --config .semgrep.yml backend/ frontend/
+                        fi
+                    '''
+                }
+            }
+        }
         
         stage('Preparation') {
             steps {

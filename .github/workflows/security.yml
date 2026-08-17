@@ -26,3 +26,23 @@ jobs:
           GITLEAKS_LICENSE: "" # Free open-source mode
         with:
           config-path: .gitleaks.toml
+
+  semgrep-sast-scan:
+    name: Semgrep SAST Scan 🛡️
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep SAST Scan (Backend & Frontend)
+        run: |
+          semgrep scan \
+            --config p/security-audit \
+            --config p/nodejs \
+            --config p/javascript \
+            --config p/owasp-top-ten \
+            --config .semgrep.yml \
+            --error \
+            backend/ frontend/

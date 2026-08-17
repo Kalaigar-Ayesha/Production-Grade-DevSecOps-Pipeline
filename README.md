@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 💬 Full Stack Realtime Chat Application
 
 ## Chat Application Architecture
@@ -245,3 +246,6 @@ artillery run load-test.yml
 - Ensure CI/CD pipeline passes
 
 Built with ❤️ by the DevOps Team
+=======
+# Production-Grade-DevSecOps-Pipeline
+>>>>>>> 917c7d4ceb816d1eea622aea7b60e4ad72313e3f
